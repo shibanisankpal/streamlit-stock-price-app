@@ -41,6 +41,7 @@ if tickerSymbol:
         scaler = MinMaxScaler()
         train_scaled = scaler.fit_transform(train_data)
         test_scaled = scaler.transform(test_data)
+
         # Split the data into input features and target variable
         X_train, y_train = train_scaled[:-1, :], train_scaled[1:, -1]
         X_test, y_test = test_scaled[:-1, :], test_scaled[1:, -1]
@@ -57,26 +58,25 @@ if tickerSymbol:
 
         # Train the model
         model.fit(X_train, y_train, epochs=10, batch_size=32)
+
         # Make predictions on the test set
         predictions = model.predict(X_test)
-        predictions = scaler.inverse_transform(pd.concat([pd.DataFrame(X_test[:, 0, :-1].reshape(X_test.shape[0], -1)), pd.DataFrame(predictions)], axis=1))[:, -1]
+        predictions = scaler.inverse_transform(
+            pd.concat([pd.DataFrame(X_test[:, 0, :-1].reshape(X_test.shape[0], -1)), pd.DataFrame(predictions)],
+                      axis=1))[:, -1]
 
-        # Create a new DataFrame for the predictions
-        predictions_df = pd.DataFrame(predictions, columns=['predicted_close'], index=test_data.index[:-1])
+        # Assign predicted values to the test_data DataFrame
+        test_data['predicted_close'] = predictions
 
-        # Merge the predictions with the test_data DataFrame
-        test_data = test_data.merge(predictions_df, left_index=True, right_index=True, how='outer')
+        # Reset the index of test_data for visualization
+        test_data = test_data.reset_index()
 
-        # Convert the data types of the columns to appropriate types
-        test_data['close'] = test_data['close'].astype(float)
-        test_data['predicted_close'] = test_data['predicted_close'].astype(float)
-
+        # Display the actual vs. predicted closing prices
         st.write("""
         ## Actual vs. Predicted Closing Price
         """)
-        st.line_chart(test_data[['close', 'predicted_close']])
+        st.line_chart(test_data[['date', 'close', 'predicted_close']].set_index('date'))
 
     except KeyError:
         st.write("Invalid ticker symbol. Please enter a valid symbol.")
-
 
