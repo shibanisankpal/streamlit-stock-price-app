@@ -67,8 +67,9 @@ if tickerSymbol:
         # Merge the predictions with the test_data DataFrame
         test_data = test_data.merge(predictions_df, left_index=True, right_index=True, how='outer')
 
-        # Drop the last row from test_data DataFrame
-        test_data = test_data.iloc[:-1]
+        # Convert the data types of the columns to appropriate types
+        test_data['close'] = test_data['close'].astype(float)
+        test_data['predicted_close'] = test_data['predicted_close'].astype(float)
 
         st.write("""
         ## Actual vs. Predicted Closing Price
