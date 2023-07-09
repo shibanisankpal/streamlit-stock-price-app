@@ -49,7 +49,6 @@ if tickerSymbol:
         X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
         X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
 
-
         # Create an LSTM model
         model = Sequential()
         model.add(LSTM(64, activation='relu', input_shape=(X_train.shape[1], 1)))
@@ -62,9 +61,14 @@ if tickerSymbol:
         predictions = model.predict(X_test)
         predictions = scaler.inverse_transform(pd.concat([pd.DataFrame(X_test[:, 0, :-1].reshape(X_test.shape[0], -1)), pd.DataFrame(predictions)], axis=1))[:, -1]
 
-        # Add the predicted values to the test_data DataFrame
-        test_data['predicted_close'] = predictions
+        # Create a new DataFrame for the predictions
+        predictions_df = pd.DataFrame(predictions, columns=['predicted_close'], index=test_data.index[:-1])
 
+        # Merge the predictions with the test_data DataFrame
+        test_data = test_data.merge(predictions_df, left_index=True, right_index=True, how='outer')
+
+        # Drop the last row from test_data DataFrame
+        test_data = test_data.iloc[:-1]
 
         st.write("""
         ## Actual vs. Predicted Closing Price
