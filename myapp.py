@@ -26,8 +26,11 @@ if tickerSymbol:
             df = pd.DataFrame(prices)
             df['date'] = pd.to_datetime(df['formatted_date'])
 
-            # Convert boolean column to integers
-            df['close'] = df['close'].astype(int)
+            # Convert 'close' column to numeric
+            df['close'] = pd.to_numeric(df['close'], errors='coerce')
+
+            # Filter out NaN values
+            df = df.dropna(subset=['close'])
 
             st.write("""
             ## Closing Price
