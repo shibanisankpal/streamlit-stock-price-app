@@ -1,6 +1,7 @@
 from yahoofinancials import YahooFinancials
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 st.write("""
 # Simple Stock Price App
@@ -26,16 +27,13 @@ if tickerSymbol:
             df = pd.DataFrame(prices)
             df['date'] = pd.to_datetime(df['formatted_date'])
 
-            # Convert 'close' column to numeric
-            df['close'] = pd.to_numeric(df['close'], errors='coerce')
-
-            # Filter out NaN values
-            df = df.dropna(subset=['close'])
+            # Convert 'close' column to list
+            close_values = df['close'].tolist()
 
             st.write("""
             ## Closing Price
             """)
-            st.line_chart(df['close'])
+            st.line_chart(close_values)
 
             st.write("""
             ## Volume Price
