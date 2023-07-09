@@ -1,3 +1,3 @@
 # streamlit-stock-price-app
 
-This app shows the closing price and volume of the stock selected.
+This app predicts the future stock **closing price** of the stock selected.
