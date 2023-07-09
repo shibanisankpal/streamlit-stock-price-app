@@ -41,14 +41,14 @@ if tickerSymbol:
         scaler = MinMaxScaler()
         train_scaled = scaler.fit_transform(train_data)
         test_scaled = scaler.transform(test_data)
-
         # Split the data into input features and target variable
-        X_train, y_train = train_scaled[:, :-1], train_scaled[:, -1]
-        X_test, y_test = test_scaled[:, :-1], test_scaled[:, -1]
+        X_train, y_train = train_scaled[:-1, :], train_scaled[1:, -1]
+        X_test, y_test = test_scaled[:-1, :], test_scaled[1:, -1]
 
         # Reshape the input features to be 3-dimensional for LSTM model
-        X_train = X_train.reshape((X_train.shape[0], X_train.shape[1], 1))
-        X_test = X_test.reshape((X_test.shape[0], X_test.shape[1], 1))
+        X_train = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
+        X_test = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
+
 
         # Create an LSTM model
         model = Sequential()
