@@ -69,8 +69,8 @@ if tickerSymbol:
         # Merge the predictions with the test_data DataFrame
         test_data = test_data.merge(predictions_df, left_index=True, right_index=True, how='outer')
 
-        # Drop the last row from test_data DataFrame
-        test_data = test_data.iloc[:-1]
+        # Convert the 'predicted_close' column to int dtype
+        test_data['predicted_close'] = test_data['predicted_close'].astype(int)
 
         st.write("""
         ## Actual vs. Predicted Closing Price
@@ -79,4 +79,5 @@ if tickerSymbol:
 
     except KeyError:
         st.write("Invalid ticker symbol. Please enter a valid symbol.")
+
 
