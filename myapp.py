@@ -58,13 +58,13 @@ if tickerSymbol:
 
         # Train the model
         model.fit(X_train, y_train, epochs=10, batch_size=32)
-
         # Make predictions on the test set
         predictions = model.predict(X_test)
-        predictions = scaler.inverse_transform(pd.concat([pd.DataFrame(X_test[:, :-1]), pd.DataFrame(predictions)], axis=1))[:, -1]
+        predictions = scaler.inverse_transform(pd.concat([pd.DataFrame(X_test[:, 0, :-1].reshape(X_test.shape[0], -1)), pd.DataFrame(predictions)], axis=1))[:, -1]
 
         # Add the predicted values to the test_data DataFrame
         test_data['predicted_close'] = predictions
+
 
         st.write("""
         ## Actual vs. Predicted Closing Price
