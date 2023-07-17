@@ -3,3 +3,6 @@ yahoofinancials==1.6.0
 tensorflow
 keras
 scikit-learn
+numpy
+statsmodels
+matplotlib
