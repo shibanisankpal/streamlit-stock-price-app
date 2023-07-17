@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import yfinance as yf
+import yahoofinancials as yf
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta, date as dt_date
 from statsmodels.tsa.arima.model import ARIMA
