@@ -3,6 +3,6 @@ yfinance
 tensorflow==2.6.0
 keras
 scikit-learn
-numpy==1.19.0
+numpy==1.18.5
 statsmodels
 matplotlib
