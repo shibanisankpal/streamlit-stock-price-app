@@ -47,7 +47,6 @@ def main():
 
     st.subheader(f"{company_name} ({symbol}) Stock Prices from {start_date} to {end_date}")
     st.line_chart(stock_data["Adj Close"])
-
     # Stock price prediction using ARIMA
     st.subheader("Stock Price Prediction using ARIMA")
     prediction_days = st.slider("Select the number of days for prediction:", 1, 30, 7)
@@ -68,6 +67,8 @@ def main():
         plt.text(date, price, f'{price:.2f}', ha='center', va='bottom', color='black')
 
     st.pyplot(plt)
+
+
 
 
 
