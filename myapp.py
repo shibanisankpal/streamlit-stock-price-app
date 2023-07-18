@@ -4,7 +4,6 @@ import yfinance as yf
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta, date as dt_date
 from statsmodels.tsa.arima.model import ARIMA
-import numpy as np
 
 def get_stock_data(symbol, start_date, end_date):
     stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -14,7 +13,6 @@ def get_company_name(symbol):
     company = yf.Ticker(symbol)
     return company.info['longName']
 
-
 def train_arima_model(data, prediction_days):
     model = ARIMA(data['Adj Close'], order=(5, 1, 0))
     model_fit = model.fit()
@@ -22,14 +20,11 @@ def train_arima_model(data, prediction_days):
     # Get the forecasted values (including the last actual price)
     forecast = model_fit.forecast(steps=prediction_days)
 
-
     # Prepare data for prediction
     last_date = data.index[-1]
     forecast_dates = pd.date_range(start=last_date + timedelta(days=1), periods=prediction_days)
 
     return model_fit, forecast, forecast_dates
-
-
 
 def main():
     st.title("Finance Project with Streamlit")
@@ -47,6 +42,7 @@ def main():
 
     st.subheader(f"{company_name} ({symbol}) Stock Prices from {start_date} to {end_date}")
     st.line_chart(stock_data["Adj Close"])
+
     # Stock price prediction using ARIMA
     st.subheader("Stock Price Prediction using ARIMA")
     prediction_days = st.slider("Select the number of days for prediction:", 1, 30, 7)
@@ -68,12 +64,9 @@ def main():
 
     st.pyplot(plt)
 
-
-
-
-
 if __name__ == "__main__":
     main()
+
 
 
 
