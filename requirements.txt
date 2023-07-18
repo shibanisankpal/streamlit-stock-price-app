@@ -3,6 +3,6 @@ yfinance
 tensorflow
 keras
 scikit-learn
-numpy
 statsmodels
 matplotlib
+datetime
