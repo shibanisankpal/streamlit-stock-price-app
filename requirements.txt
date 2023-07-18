@@ -1,8 +1,8 @@
 streamlit==0.68.1
 yfinance
-tensorflow
+tensorflow==2.6.0
 keras
 scikit-learn
-numpy==1.19.0 --no-cache-dir
+numpy==1.19.0
 statsmodels
 matplotlib
